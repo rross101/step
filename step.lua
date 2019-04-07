@@ -43,6 +43,8 @@ local even_ppqn
 
 local trigs = {}
 
+local dest = {"192.168.1.227",10101}
+
 local function cutting_is_enabled()
   return params:get("last_row_cuts") == 2
 end
@@ -209,7 +211,10 @@ local function tick()
       end
     end
     engine.multiTrig(ts[1], ts[2], ts[3], ts[4], ts[5], ts[6], ts[7], ts[8])
-
+    for osc_num = 1,8 do
+      osc.send(dest, "/soup", {ts[osc_num]})
+    end
+    
     if previous_playpos ~= -1 then
       grid_dirty = true
     end
